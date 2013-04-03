@@ -2,16 +2,26 @@ import random
 import urllib2
 import simplejson
 import re
+import linecache
+import string
 
 def find_sloth():
     filename = "sloth"
+
+    # find random work from dictionary
     searchTerm = "sloth"
+    try:
+        line = linecache.getline("dictionary.txt", random.randint(1, 99000))
+        line = string.rstrip(line)
+        searchTerm = "sloth " + line
+    except:
+        pass
 
 # escape spaces
     searchTerm = searchTerm.replace(' ','%20')
 
 # Choose random start page. Images are retrieved in groups of 4
-    sloth_start = random.randint(0, 15)
+    sloth_start = random.randint(0, 4)
     url = ('https://ajax.googleapis.com/ajax/services/search/images?' + 'v=1.0&q='+searchTerm+'&start='+str(sloth_start*4))
     request = urllib2.Request(url, None, {'Referer': 'testing'})
     response = urllib2.urlopen(request)
