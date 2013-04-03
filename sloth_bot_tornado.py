@@ -37,15 +37,8 @@ def read(data):
 
     # user message: prefix = username, command = PRIMSG, trail = msg
     if command == 'PRIVMSG':
-        n = re.search(r'^{}: stop'.format(NICK), trail)
-        if n:
-            print "stopping"
-            read.kill_user = ""
-
         m = re.search(r'^{}: kill (\w+)'.format(NICK), trail)
-        print n,m 
         if m:
-            print "killing"
             read.kill_user = m.groups()[0]
             print read.kill_user
 
@@ -53,7 +46,6 @@ def read(data):
             stream.write("PRIVMSG {} :{}: fuck you\r\n".format(CHAN, read.kill_user))
 
         if '<sloth>' in trail:
-            print "find img"
             try:
                 img_name = find_sloth.find_sloth()
                 url = imgup.upload_sloth(img_name)
@@ -64,9 +56,8 @@ def read(data):
         # don't kick the sloth :(
         stream.write("PONG {}\r\n".format(trail))
 
-
-    print trail
     stream.read_until('\r\n', read)
+
 read.kill_user = ""
 
 def shutdown_app():
