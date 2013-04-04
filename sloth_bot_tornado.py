@@ -47,7 +47,10 @@ def read(data):
 
         if '<sloth>' in trail:
             try:
-                img_name = find_sloth.find_sloth()
+                search_terms = re.findall(r'<sloth> (\w+\S*)*', trail)
+                if search_terms:
+                    search_terms = search_terms[0]
+                img_name = find_sloth.find_sloth(search_terms)
                 url = imgup.upload_sloth(img_name)
                 stream.write("PRIVMSG {} :{}\r\n".format(CHAN, url))
             except:

@@ -5,23 +5,28 @@ import re
 import linecache
 import string
 
-def find_sloth():
+def find_sloth(search_terms):
     filename = "sloth"
 
-    # find random work from dictionary
     searchTerm = "sloth"
-    try:
-        line = linecache.getline("dictionary.txt", random.randint(1, 99000))
-        line = string.rstrip(line)
-        searchTerm = "sloth " + line
-    except:
-        pass
+    if (search_terms):
+        searchTerm += " " + search_terms
+
+    # # find random work from dictionary
+    # try:
+    #     line = linecache.getline("dictionary.txt", random.randint(1, 99000))
+    #     line = string.rstrip(line)
+    #     searchTerm = "sloth " + line
+    # except:
+    #     pass
+
+    print searchTerm
 
 # escape spaces
     searchTerm = searchTerm.replace(' ','%20')
 
 # Choose random start page. Images are retrieved in groups of 4
-    sloth_start = random.randint(0, 4)
+    sloth_start = random.randint(0, 15)
     url = ('https://ajax.googleapis.com/ajax/services/search/images?' + 'v=1.0&q='+searchTerm+'&start='+str(sloth_start*4))
     request = urllib2.Request(url, None, {'Referer': 'testing'})
     response = urllib2.urlopen(request)
